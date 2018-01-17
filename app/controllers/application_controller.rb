@@ -5,14 +5,14 @@ class ApplicationController < Sinatra::Base
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
-  end
+end
 
 get '/' do
   @tweets = Tweet.all
   erb :'/tweets/tweets'
 end
 
-get '/tweets/new'
+get '/tweets/new' do
   erb :'tweets/new'
 end
 
