@@ -19,7 +19,7 @@ get '/tweets/new' do
 end
 
 get '/tweets/:id' do
-  @tweet = Tweet.find(params[:id])
+  @tweet = Tweet.find_by_id(session[:user_id])
   erb :'tweets/show'
 end
 
@@ -36,24 +36,32 @@ get '/signup' do
 end
 
 get '/login' do
+#   @current_user = User.find_by_id(session[:user_id])
+# if @current_user
   erb :'users/login'
+# end
 end
 
 post '/signup' do
-  if !params[:users][:username].empty? || !params[:users][:password].empty? || !params[:users][:email].empty?
-    redirect to 'tweets/tweets'
-  elsif @user
+  if params[:username].empty? || params[:password].empty? || params[:email].empty?
+    redirect to 'users/signup'
+  else
+     @user = User.create(params[:user])
       session[:user_id] = @user.id
-    erb :signup
-end
+      # @user.result(binding)
+    redirect to 'tweets/show'
+ end
 end
 
 post '/login' do
-  erb :users/login
+  @current_user = User.find_by_id(session[:user_id])
+if @current_user
+  erb :'users/login'
 end
-
+end
 post '/tweets' do
   @tweet = Tweet.create(params[:tweet])
+  @tweet.contents = params[:contents]
   @tweet.save
   redirect to "/tweets/#{@tweet.id}"
 end
@@ -66,8 +74,8 @@ post '/tweets/:id' do
 end
 
 post 'tweets/:id/delete' do
-  @tweet.delete
-  redirect to 'tweets/homepage'
+  @tweet.clear
+  redirect to '/'
 end
 
 

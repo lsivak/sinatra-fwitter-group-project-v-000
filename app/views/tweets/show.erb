@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
   </head>
   <body id="page-top">
-    <%= tweet.content %>
-
+    <% Tweets.all.each do |tweet| %>
+    <%= @tweet.content %>
+      <%end%>
     <h1> <a href="/">Edit Tweet</a> </h1>
 
     <form action="/tweets/<%=@tweet.id%>" method="POST">
