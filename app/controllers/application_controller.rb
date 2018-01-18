@@ -11,7 +11,7 @@ end
 
 get '/' do
   @tweets = Tweet.all
-  erb :'/tweets/tweets'
+  erb :'/tweets/homepage'
 end
 
 get '/tweets/new' do
@@ -25,28 +25,31 @@ end
 
 get '/tweets/:id/edit' do
   @tweet = Tweet.find(params[:id])
+  if logged_in(session)
   erb :'tweets/edit'
 end
+end
 
-get 'users/signup' do
+get '/signup' do
+  @user = User.create(params[:user])
   erb :'users/signup'
 end
 
-get 'users/login' do
+get '/login' do
   erb :'users/login'
 end
 
-post 'users/signup' do
+post '/signup' do
   if !params[:users][:username].empty? || !params[:users][:password].empty? || !params[:users][:email].empty?
-    redirect to '/tweets'
-  end
-    if Helpers.logged_in(session)?
-  erb :'users/signup'
+    redirect to 'tweets/tweets'
+  elsif @user
+      session[:user_id] = @user.id
+    erb :signup
 end
 end
 
-post 'users/login' do
-  erb :'users/login'
+post '/login' do
+  erb :users/login
 end
 
 post '/tweets' do
@@ -57,14 +60,14 @@ end
 
 post '/tweets/:id' do
   @tweet = Tweet.find(params[:id])
-  @Tweet.update(params[:tweet])
+  @tweet.update(params[:tweet])
   @tweet.save
-  redirect to "/tweet/#{@tweet.id}"
+  redirect to "/tweets/#{@tweet.id}"
 end
 
 post 'tweets/:id/delete' do
   @tweet.delete
-  redirect to 'tweets/tweets'
+  redirect to 'tweets/homepage'
 end
 
 
