@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
   </head>
   <body id="page-top">
-    <% Tweets.all.each do |tweet| %>
+    <% Tweet.all.each do |content| %>
     <%= @tweet.content %>
       <%end%>
     <h1> <a href="/">Edit Tweet</a> </h1>

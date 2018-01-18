@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
+  </head>
+  <body id="page-top">
+    <h1>Welcome <%= Helpers.current_user(session).username %></h1>
+    <% Tweets.all.each do |tweet| %>
+       <%= @tweet.content %>
+         <%end%>
+
+    <h1> <a href="/">Edit Tweet</a> </h1>
+
+    <form action="/tweets/<%=@user.id%>" method="POST">
+      <input type="hidden" name="_method" value="delete">
+   <input type="submit" value="Delete Tweet">
+  </body>
+</html>
