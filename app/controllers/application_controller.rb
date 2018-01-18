@@ -5,6 +5,8 @@ class ApplicationController < Sinatra::Base
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
+    enable :sessions unless test?
+    set :session_secret, "secret"
 end
 
 get '/' do
@@ -23,7 +25,28 @@ end
 
 get '/tweets/:id/edit' do
   @tweet = Tweet.find(params[:id])
-  erb :'tweet/edit'
+  erb :'tweets/edit'
+end
+
+get 'users/signup' do
+  erb :'users/signup'
+end
+
+get 'users/login' do
+  erb :'users/login'
+end
+
+post 'users/signup' do
+  if !params[:users][:username].empty? || !params[:users][:password].empty? || !params[:users][:email].empty?
+    redirect to '/tweets'
+  end
+    if Helpers.logged_in(session)?
+  erb :'users/signup'
+end
+end
+
+post 'users/login' do
+  erb :'users/login'
 end
 
 post '/tweets' do
@@ -41,7 +64,7 @@ end
 
 post 'tweets/:id/delete' do
   @tweet.delete
-  redirect to '/tweets/tweets'
+  redirect to 'tweets/tweets'
 end
 
 
