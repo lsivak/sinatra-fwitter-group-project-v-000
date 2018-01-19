@@ -6,12 +6,12 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions unless test?
-    set :session_secret, "secret"
+    set :session_secret, "fwitter_secret"
 end
 
 get '/' do
   @tweets = Tweet.all
-  erb :'/index'
+  erb :'tweets/homepage'
 end
 
 get '/tweets/new' do
