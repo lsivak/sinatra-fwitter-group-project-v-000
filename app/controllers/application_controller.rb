@@ -15,7 +15,11 @@ get '/' do
 end
 
 get '/tweets/new' do
-  erb :'tweets/new'
+  if session[:user_id]
+    erb :'tweets/new'
+  else
+    redirect to '/login'
+  end
 end
 
 get '/tweets/:id' do
@@ -67,7 +71,10 @@ if @current_user
 end
 
 post '/tweets/:id' do
-  @tweet = Tweet.find(params[:id])
+  if params[:content] == nil
+    redirect to "/tweets/#{params[:id]}/edit"
+  else
+  @tweet = Tweet.find_by_id(params[:id])
   @tweet.update(params[:tweet])
   @tweet.save
   redirect to "/tweets/#{@tweet.id}"
@@ -75,18 +82,26 @@ end
 
 end
 post '/tweets' do
-  @tweet = Tweet.create(params[:tweet])
-  @tweet.content = params[:content]
-  @tweet.save
-  redirect to "/tweets/#{@user.id}"
+if params[:content] == nil
+  redirect to "tweets/new"
+else
+  redirect to "/tweets/#{@tweet.id}"
+end
 end
 
 
-
-post 'tweets/:user_id/delete' do
-  session.clear
-  redirect to '/'
+post 'tweets/:id/delete' do
+    if session[:user_id]
+      @tweet = Tweet.find_by_id(params[:id])
+       if @tweet.user_id == session[:user_id]
+         @tweet.delete
+         redirect to '/tweets'
+       else
+         redirect to '/tweets'
+       end
+     else
+       redirect to '/login'
+     end
 end
-
 
 end
