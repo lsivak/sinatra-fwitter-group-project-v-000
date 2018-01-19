@@ -24,14 +24,16 @@ class UsersController < ApplicationController
     erb :'users/login'
   end
   end
-  ends
+  end
 
   get '/signup' do
+    @user = User.create(params[:user])
+     session[:user_id] = @user.id
     if !session[:user_id]
 
     erb :'users/signup'
   else
-    redirect to '/tweets'
+    redirect to '/tweets/homepage'
   end
   end
 
@@ -43,7 +45,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         @user.save
 
-      redirect to 'tweets/homepage'
+      redirect to '/tweets/homepage'
    end
   end
 

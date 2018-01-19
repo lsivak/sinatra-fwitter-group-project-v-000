@@ -1,4 +1,9 @@
-class UsersController < ApplicationController
+class TweetsController < ApplicationController
+
+  get '/' do
+    @tweets = Tweet.all
+    erb :'/index'
+  end
 
 get '/tweets/new' do
   if session[:user_id]
@@ -26,10 +31,6 @@ else
 
 end
 end
-
-
-
-
 
 post '/tweets/:id' do
   if params[:content] == nil
@@ -66,4 +67,5 @@ post 'tweets/:id/delete' do
      else
        redirect to '/login'
      end
+end
 end
