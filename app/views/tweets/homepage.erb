@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Welcome to Twitter</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
-  </head>
-  <body id="page-top">
+<p> Welcome <%= current_user.username %>
+<h2> Tweets </h2>
     <% Tweet.all.each do |content| %>
-    <%= @tweet.content %>
+    <%= tweet.content %>
       <%end%>
-
-    <form action="/tweets/<%=@tweet.id%>" method="POST">
-      <input type="hidden" name="_method" value="delete">
-   <input type="submit" value="Delete Tweet">
-  </body>
-</html>
