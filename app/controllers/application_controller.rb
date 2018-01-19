@@ -32,8 +32,10 @@ end
 end
 
 get '/signup' do
-  @user = User.create(params[:user])
-  erb :'users/signup'
+  if User.logged_in?(session)
+    redirect to '/tweets/homepage'
+  else
+  erb :signup
 end
 
 get '/login' do
