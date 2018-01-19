@@ -7,8 +7,8 @@
   </head>
   <body id="page-top">
     <h1>Welcome <%= User(session).username %></h1>
-    <% Tweets.all.each do |tweet| %>
-       <%= @tweet.content %>
+    <% @user.tweet.all.each do |tweet| %>
+       <%= tweet.content %>
          <%end%>
 
     <h1> <a href="/">Edit Tweet</a> </h1>
