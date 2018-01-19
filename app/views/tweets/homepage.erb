@@ -9,7 +9,6 @@
     <% Tweet.all.each do |content| %>
     <%= @tweet.content %>
       <%end%>
-    <h1> <a href="/">Edit Tweet</a> </h1>
 
     <form action="/tweets/<%=@tweet.id%>" method="POST">
       <input type="hidden" name="_method" value="delete">
