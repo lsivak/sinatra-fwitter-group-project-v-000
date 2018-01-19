@@ -19,7 +19,6 @@ post '/signup' do
   else
      @user = User.create(params[:user])
       session[:user_id] = @user.id
-      #  @user.result(binding)
     redirect to 'tweets/homepage'
  end
 end

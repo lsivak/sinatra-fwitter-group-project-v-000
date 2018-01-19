@@ -2,13 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Welcome to Fwitter</title>
+    <title>Welcome to Twitter</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
   </head>
   <body id="page-top">
-      <h3>Please Log In or Signup</h3>
-      <h3><a href="/">Log In</a> <a href="/signup">Signup</a></h3>
-    <h4><a href="/logout">Log Out</a><h4>
+    <% Tweet.all.each do |content| %>
+    <%= @tweet.content %>
+      <%end%>
+    <h1> <a href="/">Edit Tweet</a> </h1>
 
+    <form action="/tweets/<%=@tweet.id%>" method="POST">
+      <input type="hidden" name="_method" value="delete">
+   <input type="submit" value="Delete Tweet">
   </body>
 </html>
