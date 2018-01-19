@@ -24,29 +24,56 @@ end
 
 get '/tweets/:id' do
   @tweet = Tweet.find_by_id(session[:user_id])
-    session[:user_id] = @user.id
+    if session[:user_id] = @user.id
   erb :'tweets/show'
+else
+  redirect to '/login'
+end
 end
 
 get '/tweets/:id/edit' do
-  @tweet = Tweet.find(params[:user_id])
-  if logged_in(session)
+  @tweet = Tweet.find_by_id(params[:id])
+     if @tweet.user_id == session[:user_id]
   erb :'tweets/edit'
+else
+  redirect to '/login'
+
 end
 end
 
-get '/signup' do
-  @user = User.create(params[:user])
-
-  erb :'users/signup'
+get '/users/:slug' do
+  @user = User.find_by_slug(params[:slug])
+  erb :'users/show'
 end
 
 get '/login' do
-    @user = User.create(params[:user])
-#   @current_user = User.find_by_id(session[:user_id])
-# if @current_user
+  if !session[:user_id]
+    erb :'users/login'
+  else
+    redirect '/tweets'
+  end
+end
+
+post '/login' do
+  @user = User.create(params[:user])
+  @current_user = User.find_by_id(session[:id])
+if @current_user
+  if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+      redirect to "/tweets/show"
+    else
   erb :'users/login'
-# end
+end
+end
+ends
+
+get '/signup' do
+  if !session[:user_id]
+
+  erb :'users/signup'
+else
+  redirect to '/tweets'
+end
 end
 
 post '/signup' do
@@ -55,36 +82,30 @@ post '/signup' do
   else
      @user = User.create(params[:user])
       session[:user_id] = @user.id
-      #  @user.result(binding)
+      @user.save
+
     redirect to 'tweets/homepage'
  end
 end
 
-post '/login' do
-  @user = User.create(params[:user])
-  @current_user = User.find_by_id(session[:id])
-if @current_user
-  session[:user_id] = @user.id
-      redirect to "/tweets/show"
-    else
-  erb :'users/login'
-end
-
 post '/tweets/:id' do
   if params[:content] == nil
-    redirect to "/tweets/#{params[:id]}/edit"
+    redirect to "/tweets/#{@tweet.id}/edit"
   else
   @tweet = Tweet.find_by_id(params[:id])
+  @tweet.content = Content.create(params[:content])
   @tweet.update(params[:tweet])
   @tweet.save
   redirect to "/tweets/#{@tweet.id}"
 end
-
 end
+
 post '/tweets' do
 if params[:content] == nil
   redirect to "tweets/new"
 else
+  user = User.find_by_id(session[:user_id])
+  @tweet = Tweet.create(:content => params[:content], :user_id => user.id)
   redirect to "/tweets/#{@tweet.id}"
 end
 end
@@ -104,4 +125,12 @@ post 'tweets/:id/delete' do
      end
 end
 
+get '/logout' do
+  if session[:user_id] =! nil
+    session.destroy
+    redirect to '/login'
+else
+redirect to '/'
+end
+end
 end
