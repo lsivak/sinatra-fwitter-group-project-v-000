@@ -12,16 +12,26 @@ class UsersController < ApplicationController
 
     get '/signup' do
 
-      if !session[:user_id]
-
+    if !session[:user_id]
       erb :'users/signup'
-    else
-        if @user
-        session[:user_id] = @user.id
-        end
-           redirect to '/tweets/homepage'
+    # else
+    #   redirect to "/tweets/homepage"
+end
+end
+
+    post '/signup' do
+      if params[:username] =="" || params[:password] ==""|| params[:email] ==""
+        redirect to 'users/signup'
+      else
+        @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
+         @current_user = User.find_by_id(session[:id])
+
+        if @current_user && User.authenticate(params[:password])
+              session[:user_id] = user.id
+        redirect to '/tweets'
+  end
     end
-    end
+  end
 
   get '/login' do
     if !session[:user_id]
@@ -42,18 +52,6 @@ class UsersController < ApplicationController
     erb :'users/login'
 
   end
-  end
-
-  post '/signup' do
-    if params[:username].empty? || params[:password].empty? || params[:email].empty?
-      redirect to '/signup'
-    else
-       @user = User.create(params[:user])
-        session[:user_id] = @user.id
-        @user.save
-
-      redirect to '/tweets/homepage'
-   end
   end
 
   get '/logout' do
