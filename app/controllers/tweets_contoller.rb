@@ -36,7 +36,8 @@ get '/tweets/:id/edit' do
      if @tweet.user_id == session[:user_id]
   erb :'tweets/edit'
 else
-  redirect to '/login'
+  redirect to '/tweets'
+end
 
 end
 end
