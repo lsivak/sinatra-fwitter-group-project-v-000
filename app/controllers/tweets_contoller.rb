@@ -1,13 +1,14 @@
 class TweetsController < ApplicationController
+  #
+  # get '/' do
+  #   @tweets = Tweet.all
+  #   erb :'/index'
+  # end
 
-  get '/' do
-    @tweets = Tweet.all
-    erb :'/index'
-  end
-
-get '/tweets/new' do
+get '/tweets' do
   if session[:user_id]
-    erb :'tweets/new'
+    @tweets = Tweet.all
+    erb :'tweets/homepage'
   else
     redirect to '/login'
   end
