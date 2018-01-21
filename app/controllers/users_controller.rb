@@ -15,7 +15,7 @@ class UsersController < ApplicationController
      if !session[:user_id]
       erb :'users/signup'
      else
-       redirect to "/tweets/homepage"
+       redirect to "/tweets"
  end
 end
 
