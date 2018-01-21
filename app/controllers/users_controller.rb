@@ -35,21 +35,18 @@ end
     if !session[:user_id]
       erb :'users/login'
     else
-      redirect 'tweets/homepage'
+      redirect '/tweets/homepage'
     end
   end
 
   post '/login' do
-    @user = User.create(params[:user])
-    @current_user = User.find_by_id(session[:id])
-
-    if @current_user && User.authenticate(params[:password])
-          session[:user_id] = user.id
-        redirect to "/tweets/homepage"
-      else
-    erb :'users/login'
-
-  end
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/tweets/homepage"
+    else
+      redirect to 'users/signup'
+    end
   end
 
   get '/logout' do

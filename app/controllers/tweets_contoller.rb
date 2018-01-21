@@ -10,7 +10,15 @@ get '/tweets' do
     @tweets = Tweet.all
     erb :'tweets/homepage'
   else
-    redirect to '/login'
+    redirect to 'users/login'
+  end
+end
+
+get '/tweets/new' do
+  if session[:user_id]
+    erb :'tweets/new'
+  else
+    redirect to 'users/login'
   end
 end
 
