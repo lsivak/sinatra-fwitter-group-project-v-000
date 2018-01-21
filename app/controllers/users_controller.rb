@@ -35,7 +35,7 @@ end
     if !session[:user_id]
       erb :'users/login'
     else
-      redirect '/tweets'
+      redirect '/tweets/homepage'
     end
   end
 
@@ -45,13 +45,13 @@ end
       session[:user_id] = user.id
       redirect "/tweets"
     else
-      redirect to '/signup'
+      redirect to 'users/signup'
     end
   end
 
   get '/logout' do
     if session[:user_id] != nil
-      session.destroy
+      session.clear
       redirect to '/login'
   else
   redirect to '/'
