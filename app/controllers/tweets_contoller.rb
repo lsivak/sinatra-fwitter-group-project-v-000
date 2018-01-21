@@ -10,7 +10,7 @@ get '/tweets' do
 end
 
 get '/tweets/new' do
-  if session[:user_id]
+  if session[:user_id] && current_user
     erb :'tweets/new'
   else
     redirect to 'users/login'
