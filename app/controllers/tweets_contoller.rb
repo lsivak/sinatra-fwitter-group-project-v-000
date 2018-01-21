@@ -23,8 +23,8 @@ get '/tweets/new' do
 end
 
 get '/tweets/:id' do
-  @tweet = Tweet.find_by_id(session[:user_id])
-    if session[:user_id] = user.id
+  @tweet = Tweet.find_by_id(params[:id])
+    if session[:user_id]
   erb :'tweets/show'
 else
   redirect to '/login'
@@ -41,7 +41,7 @@ else
 end
 end
 
-patch '/tweets/:id' do
+post '/tweets/:id' do
   if params[:content] == nil
     redirect to "/tweets/#{@tweet.id}/edit"
   else
