@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">
   </head>
   <body id="page-top">
-    <p> Here are your tweets, <%= @user.username %>
+    <p>Below are your tweets, <%= @user.username %>
     <% @user.tweets.each do |tweet| %>
        <%= tweet.content %>
          <%end%>
