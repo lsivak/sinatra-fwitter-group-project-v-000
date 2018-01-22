@@ -10,13 +10,5 @@
     <% @user.tweets.each do |tweet| %>
        <%= tweet.content %>
          <%end%>
-
-    <h1> <a href="/users/<%=@user.id/edit%">Edit Tweet</a> </h1>
-
-    <form action="/users/<%=@user.id/delete%>" method="POST">
-      <input type="hidden" name="_method" value="delete">
-   <input type="submit" value="Delete Tweet">
-
-       <h4><a href="/logout">Log Out</a><h4>
   </body>
 </html>

@@ -52,10 +52,17 @@ end
   get '/logout' do
     if session[:user_id] != nil
       session.clear
+
       redirect to '/login'
   else
   redirect to '/'
 
   end
-  end
+
+      redirect to 'tweets/homepage'
+  # else
+  # redirect to '/tweets/homepage'
+   end
+
+
   end
