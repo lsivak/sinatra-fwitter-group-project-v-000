@@ -52,7 +52,7 @@ end
 
 patch '/tweets/:id' do
   if params[:content] == nil
-      redirect to "/tweets/#{params[:id]}/edit"
+      redirect to "/tweets/edit"
   else
   @tweet = Tweet.find_by_id(params[:id])
   @tweet.content = params[:content]
