@@ -3,6 +3,7 @@ class TweetsController < ApplicationController
   get '/tweets' do
     if session[:user_id]
       @tweets = Tweet.all
+       @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
       erb :'tweets/homepage'
     else
       redirect to 'users/login'
@@ -52,7 +53,7 @@ class TweetsController < ApplicationController
 
   patch '/tweets/:id' do
     if params[:content] == nil
-    redirect to "/tweets/#{@tweet.id}/"
+    redirect to "/tweets/#{@tweet.id}"
     else
       @tweet = Tweet.find_by_id(params[:id])
       @tweet.content = params[:content]
