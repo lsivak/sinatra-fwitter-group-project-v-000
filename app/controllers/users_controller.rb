@@ -1,9 +1,18 @@
 class UsersController < ApplicationController
 
-  # get '/users' do
-  # @users= User.all
-  #   erb :index
-  # end
+
+    get '/users/show' do
+      if session[:user_id]
+        # session[:user_id] = @user.id
+        @tweets = Tweet.all
+        @user = User.find_by_id(session[:user_id])
+         @tweet = Tweet.create(:content => params[:content], :user_id => @user.id)
+        erb :'users/show'
+      else
+        redirect to 'users/login'
+      end
+    end
+
 
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
@@ -49,6 +58,18 @@ end
       redirect '/tweets'
     else
       redirect '/signup'
+    end
+  end
+
+  get '/users/show' do
+    if session[:user_id]
+      # session[:user_id] = @user.id
+      @tweets = Tweet.all
+      @user = User.find_by_id(session[:user_id])
+       @tweet = Tweet.create(:content => params[:content], :user_id => @user.id)
+      erb :'users/show'
+    else
+      redirect to 'users/login'
     end
   end
 
